@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تحت الصيانة — سەناریا</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Noto Sans Arabic',sans-serif;min-height:100vh;background:linear-gradient(135deg,#0d2137 0%,#005f6b 60%,#007a85 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;direction:rtl;overflow:hidden;}
+    .particles{position:fixed;inset:0;pointer-events:none;z-index:0;}
+    .particle{position:absolute;border-radius:50%;background:rgba(0,229,255,.15);animation:float linear infinite;}
+    @keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0;}10%{opacity:1;}90%{opacity:1;}100%{transform:translateY(-100px) scale(1);opacity:0;}}
+    .content{position:relative;z-index:1;text-align:center;padding:24px;}
+    .logo{width:110px;height:110px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#00e5ff,#0097a7 50%,#004d5a);display:flex;align-items:center;justify-content:center;position:relative;animation:pulse 2.2s ease-in-out infinite;box-shadow:0 0 50px rgba(0,229,255,.45);margin:0 auto 24px;}
+    .logo svg{width:60px;height:60px;z-index:1;}
+    .ring{position:absolute;border-radius:50%;border:2px solid rgba(0,229,255,.35);animation:ring 2.2s linear infinite;}
+    .ring:nth-child(2){width:135%;height:135%;animation-delay:.7s;}
+    .ring:nth-child(3){width:175%;height:175%;animation-delay:1.4s;}
+    @keyframes pulse{0%,100%{box-shadow:0 0 30px rgba(0,229,255,.4);transform:scale(1);}50%{box-shadow:0 0 70px rgba(0,229,255,.8);transform:scale(1.06);}}
+    @keyframes ring{0%{opacity:1;transform:scale(.5);}100%{opacity:0;transform:scale(1.6);}}
+    h1{color:#fff;font-size:clamp(1.5rem,5vw,2.2rem);font-weight:800;margin-bottom:8px;text-shadow:0 2px 16px rgba(0,0,0,.4);}
+    p{color:rgba(255,255,255,.75);font-size:1rem;line-height:1.8;max-width:320px;margin:0 auto 28px;}
+    .badge{background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.28);color:#fff;font-size:.9rem;font-weight:700;padding:10px 30px;border-radius:50px;backdrop-filter:blur(10px);animation:blink 2.4s ease-in-out infinite;display:inline-block;margin-bottom:28px;}
+    @keyframes blink{0%,100%{opacity:1;}50%{opacity:.5;}}
+    .progress{width:min(300px,80vw);margin:0 auto 32px;}
+    .track{background:rgba(255,255,255,.18);border-radius:10px;height:8px;overflow:hidden;}
+    .fill{height:100%;background:linear-gradient(90deg,#00e5ff,#fff);border-radius:10px;animation:fill 3s ease forwards;}
+    @keyframes fill{0%{width:0}100%{width:78%}}
+    .pct{color:rgba(255,255,255,.65);font-size:.82rem;margin-top:7px;}
+    .enter-btn{background:#fff;color:#007a85;font-family:'Noto Sans Arabic',sans-serif;font-size:1rem;font-weight:700;padding:13px 44px;border:none;border-radius:50px;cursor:pointer;box-shadow:0 6px 28px rgba(0,0,0,.2);transition:transform .2s,box-shadow .2s;}
+    .enter-btn:hover{transform:translateY(-3px);box-shadow:0 10px 36px rgba(0,0,0,.28);}
+  </style>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+<div class="content">
+  <div class="logo">
+    <div class="ring"></div><div class="ring"></div>
+    <svg viewBox="0 0 62 62" fill="none">
+      <rect x="8" y="6" width="46" height="50" rx="8" fill="white" fill-opacity=".15" stroke="white" stroke-width="2"/>
+      <rect x="15" y="16" width="32" height="12" rx="4" fill="white" fill-opacity=".25"/>
+      <text x="18" y="26" fill="white" font-size="8" font-weight="bold" font-family="Arial">١٢٣</text>
+      <circle cx="22" cy="38" r="4" fill="white"/><circle cx="31" cy="38" r="4" fill="white"/>
+      <circle cx="40" cy="38" r="4" fill="white"/><circle cx="22" cy="48" r="4" fill="white"/>
+      <circle cx="31" cy="48" r="4" fill="white"/>
+      <rect x="36" y="44" width="8" height="8" rx="2" fill="#00e5ff"/>
+    </svg>
+  </div>
+  <h1>بەڕێوەبردنی ئەکاونت</h1>
+  <p id="maint-msg">ئێستا ئەم بەشە لە ژێر نوێکردنەوەدایە.<br>بەم زووانە دووبارە دەگەڕێتەوە.</p>
+  <div class="badge">🔧 Under Maintenance</div>
+  <div class="progress">
+    <div class="track"><div class="fill"></div></div>
+    <div class="pct">٧٨٪ تەواو بووە...</div>
+  </div>
+  <button class="enter-btn" onclick="window.location.href='index.html'">چوونەژوورەوە ←</button>
+</div>
+<script src="config.js"></script>
+<script>
+  // Particles
+  var pc = document.getElementById('particles');
+  for (var i=0; i<18; i++){
+    var p = document.createElement('div');
+    p.className = 'particle';
+    var s = 4 + Math.random()*12;
+    p.style.cssText = 'width:'+s+'px;height:'+s+'px;left:'+Math.random()*100+'%;animation-duration:'+(8+Math.random()*12)+'s;animation-delay:'+(Math.random()*8)+'s;';
+    pc.appendChild(p);
+  }
+  if (typeof SANARIA_CONFIG !== 'undefined')
+    document.getElementById('maint-msg').innerHTML = SANARIA_CONFIG.maintenanceMessage;
+</script>
+</body>
+</html>

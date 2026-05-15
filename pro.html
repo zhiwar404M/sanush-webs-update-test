@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ckb" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بەشی پرۆ— بەرێوبەری ئەکاونتەکەم</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{--teal:#00a8b5;--teal-dark:#007a85;--gold:#f59e0b;--text:#1a2332;--border:#e0e7ef;--bg:#f0f9fb;}
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Noto Sans Arabic',sans-serif;background:var(--bg);direction:rtl;min-height:100vh;}
+    .topbar{background:var(--teal-dark);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;position:sticky;top:0;z-index:10;}
+    .back-btn{background:none;border:none;color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;gap:6px;font-family:'Noto Sans Arabic',sans-serif;}
+    .topbar-title{color:#fff;font-size:1.1rem;font-weight:700;}
+    .hero{background:linear-gradient(135deg,var(--teal-dark),#004d5a);padding:40px 20px;text-align:center;color:#fff;}
+    .hero-badge{background:var(--gold);color:#1a2332;font-size:.78rem;font-weight:800;padding:4px 14px;border-radius:50px;display:inline-block;margin-bottom:12px;letter-spacing:.5px;}
+    .hero h1{font-size:2rem;font-weight:800;margin-bottom:8px;}
+    .hero p{opacity:.8;font-size:.95rem;line-height:1.7;}
+    .price-card{background:#fff;border-radius:24px;margin:20px 16px;box-shadow:0 8px 40px rgba(0,168,181,.15);overflow:hidden;border:2px solid var(--teal);}
+    .price-head{background:linear-gradient(135deg,var(--teal-dark),var(--teal));padding:24px;text-align:center;color:#fff;}
+    .price-label{font-size:.82rem;font-weight:600;opacity:.8;margin-bottom:4px;}
+    .price-amount{font-size:3rem;font-weight:800;}
+    .price-period{font-size:.85rem;opacity:.7;}
+    .price-body{padding:20px;}
+    .feature{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);font-size:.92rem;}
+    .feature:last-child{border-bottom:none;}
+    .feature .icon{color:var(--teal);font-size:1.1rem;flex-shrink:0;}
+    .pay-btn{display:block;width:calc(100% - 32px);margin:0 16px 16px;background:linear-gradient(135deg,var(--teal-dark),var(--teal));color:#fff;border:none;border-radius:14px;padding:16px;font-family:'Noto Sans Arabic',sans-serif;font-size:1.05rem;font-weight:700;cursor:pointer;box-shadow:0 6px 20px rgba(0,168,181,.35);transition:transform .15s;}
+    .pay-btn:hover{transform:translateY(-2px);}
+    .payment-methods{display:flex;justify-content:center;gap:12px;padding:12px 16px 24px;flex-wrap:wrap;}
+    .pm-badge{background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:8px 16px;font-size:.8rem;font-weight:600;color:var(--text);display:flex;align-items:center;gap:6px;}
+    .free-note{text-align:center;color:#607d8b;font-size:.82rem;padding:0 20px 24px;line-height:1.7;}
+    .compare{margin:16px;background:#fff;border-radius:16px;border:1.5px solid var(--border);overflow:hidden;}
+    .compare-title{background:var(--bg);padding:14px 16px;font-weight:700;font-size:.95rem;border-bottom:1px solid var(--border);}
+    .compare-row{display:grid;grid-template-columns:1fr auto auto;gap:8px;padding:11px 16px;border-bottom:1px solid var(--border);font-size:.85rem;align-items:center;}
+    .compare-row:last-child{border-bottom:none;}
+    .compare-row .label{color:var(--text);}
+    .compare-row .free-col,.compare-row .pro-col{text-align:center;font-weight:700;}
+    .compare-row .pro-col{color:var(--teal);}
+    .compare-head{display:grid;grid-template-columns:1fr auto auto;gap:8px;padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--border);font-size:.78rem;font-weight:700;color:#607d8b;}
+    .faq{margin:16px;padding-bottom:24px;}
+    .faq-title{font-weight:700;font-size:.95rem;margin-bottom:12px;}
+    .faq-item{background:#fff;border-radius:12px;border:1.5px solid var(--border);margin-bottom:8px;overflow:hidden;}
+    .faq-q{padding:13px 14px;font-size:.88rem;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;}
+    .faq-a{font-size:.84rem;color:#607d8b;line-height:1.7;padding:0 14px 13px;display:none;}
+    .faq-item.open .faq-a{display:block;}
+    .faq-item.open .arrow{transform:rotate(180deg);}
+    .arrow{transition:transform .2s;}
+  </style>
+</head>
+<body>
+<script src="config.js"></script>
+
+<div class="topbar">
+  <button class="back-btn" onclick="window.location.href='index.html'">← گەڕانەوە</button>
+  <div class="topbar-title">⭐ Pro</div>
+  <div style="width:60px"></div>
+</div>
+
+<div class="hero">
+  <div class="hero-badge">✨ PREMIUM</div>
+  <h1>سەناریا Pro</h1>
+  <p>هەموو تایبەتمەندییەکانی پێشکەوتوو بکەرەوە<br>و بەڕێوەبردنی ئەکاونتەکانت بە ئاسانی بکە</p>
+</div>
+
+<div class="price-card">
+  <div class="price-head">
+    <div class="price-label">مانگانە</div>
+    <div class="price-amount" id="pro-price">$4.99</div>
+    <div class="price-period">بە مانگ / هەر بەکارهێنەرێک</div>
+  </div>
+  <div class="price-body" id="pro-features">
+    <div class="feature"><span class="icon">♾️</span><span>ئەکاونتی نامحدود</span></div>
+    <div class="feature"><span class="icon">📊</span><span>هەناردەکردنی PDF و Excel</span></div>
+    <div class="feature"><span class="icon">📈</span><span>ڕاپۆرتی پێشکەوتوو</span></div>
+    <div class="feature"><span class="icon">🔒</span><span>پشتگیری تایبەت</span></div>
+    <div class="feature"><span class="icon">☁️</span><span>پشتگیری Cloud نامحدود</span></div>
+    <div class="feature"><span class="icon">🎨</span><span>تێم و ڕووکارە تایبەتەکان</span></div>
+  </div>
+</div>
+
+<button class="pay-btn" onclick="startPayment()">🚀 ئێستا Pro بکە</button>
+
+<div class="payment-methods">
+  <div class="pm-badge">💳 کارتی کرێدیت</div>
+  <div class="pm-badge">📱 Apple Pay</div>
+  <div class="pm-badge">🟡 PayPal</div>
+  <div class="pm-badge">🏦 گواستنەوەی بانکی</div>
+</div>
+
+<div class="free-note">
+  ✅ ئەگەر دڵخوازت نەبوو لە ٧ ڕۆژ دا گشت پارەکەت دەگەڕێتەوە<br>
+  🔒 پارەدانەکان بە SSL شفرەیی و پارێزراون
+</div>
+
+<div class="compare">
+  <div class="compare-title">بەراوردی Free و Pro</div>
+  <div class="compare-head">
+    <div>تایبەتمەندی</div><div>Free</div><div>Pro</div>
+  </div>
+  <div class="compare-row"><div class="label">ژمارەی ئەکاونت</div><div class="free-col">٥</div><div class="pro-col">♾️</div></div>
+  <div class="compare-row"><div class="label">هەناردەکردنی PDF</div><div class="free-col">✗</div><div class="pro-col">✓</div></div>
+  <div class="compare-row"><div class="label">هەناردەکردنی Excel</div><div class="free-col">✗</div><div class="pro-col">✓</div></div>
+  <div class="compare-row"><div class="label">ڕاپۆرتی پێشکەوتوو</div><div class="free-col">✗</div><div class="pro-col">✓</div></div>
+  <div class="compare-row"><div class="label">پشتگیری تایبەت</div><div class="free-col">✗</div><div class="pro-col">✓</div></div>
+  <div class="compare-row"><div class="label">Cloud Backup</div><div class="free-col">بنچینە</div><div class="pro-col">نامحدود</div></div>
+</div>
+
+<div class="faq" id="faq-section">
+  <div class="faq-title">❓ پرسیارە باوەکان</div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">Pro چۆن کار دەکات؟ <span class="arrow">▼</span></div>
+    <div class="faq-a">دوای پارەدان راستەوخۆ تایبەتمەندییە Pro یەکان چالاک دەبن. پێویستی بە هیچ کارێکی تر نییە.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">دەتوانم هەڵبوەشێنمەوە؟ <span class="arrow">▼</span></div>
+    <div class="faq-a">بەڵێ، هەر کاتێک دەتوانیت هەڵبوەشێنیتەوە. داتاکانت دەمێنێت.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">پارەکەم بۆ چۆن دەگەڕێتەوە؟ <span class="arrow">▼</span></div>
+    <div class="faq-a">لە ٧ ڕۆژ دا ئەگەر دڵخوازت نەبوو، راستەوخۆ بە هەمان رێگا پارەکەت دەگەڕێتەوە.</div>
+  </div>
+</div>
+
+<script>
+function startPayment(){
+  alert('بەزووانە پارەدان زیاد دەبێت! تکایە پاشتر بگەڕێوە.');
+}
+function toggleFaq(el){
+  el.classList.toggle('open');
+}
+// Load pro config
+window.addEventListener('load', function(){
+  if (typeof SANARIA_CONFIG !== 'undefined' && SANARIA_CONFIG.pro){
+    var p = SANARIA_CONFIG.pro;
+    var priceEl = document.getElementById('pro-price');
+    if (priceEl) priceEl.textContent = p.price;
+    var featEl = document.getElementById('pro-features');
+    if (featEl && p.features){
+      featEl.innerHTML = p.features.map(function(f){
+        return '<div class="feature"><span class="icon">✅</span><span>'+f+'</span></div>';
+      }).join('');
+    }
+  }
+});
+</script>
+</body>
+</html>
