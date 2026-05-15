@@ -384,59 +384,83 @@ td.bl.neg { color:var(--red);   font-weight:700; }
   transition: transform .3s ease;
 }
 
-/* ── USER INFO POPUP ── */
-.user-info-card {
-  background: var(--surface, #fff);
-  border-radius: 18px;
-  padding: 32px 28px 24px;
+/* ══════════════════════════════════════════
+   USER INFO POPUP  (👤 کلیک)
+══════════════════════════════════════════ */
+.user-avatar {
+  cursor: pointer;
+  transition: transform .15s, box-shadow .15s;
+}
+.user-avatar:hover {
+  transform: scale(1.15);
+  box-shadow: 0 4px 18px rgba(0,168,181,.4);
+}
+
+/* کارتی popup */
+.uip-card {
+  background: #fff;
+  border-radius: 22px;
+  padding: 36px 24px 28px;
+  width: min(88vw, 300px);
   text-align: center;
-  min-width: 220px;
-  max-width: 300px;
-  width: 85vw;
-  box-shadow: 0 12px 40px rgba(0,0,0,.22);
   position: relative;
-  animation: popIn .2s ease;
+  box-shadow: 0 20px 60px rgba(0,0,0,.22);
+  animation: uipIn .22s cubic-bezier(.34,1.56,.64,1);
 }
-@keyframes popIn {
-  from { transform: scale(.85); opacity: 0; }
-  to   { transform: scale(1);   opacity: 1; }
+@keyframes uipIn {
+  from { transform: scale(.8) translateY(-12px); opacity: 0; }
+  to   { transform: scale(1)  translateY(0);     opacity: 1; }
 }
-.user-info-close {
+
+/* دووگمەی داخستن */
+.uip-close {
   position: absolute;
-  top: 10px; left: 14px;
+  top: 12px; left: 14px;
   background: none; border: none;
-  font-size: 1.4rem; color: var(--text-light, #999);
+  font-size: 1.5rem; color: #bbb;
   cursor: pointer; line-height: 1;
+  transition: color .15s;
 }
-.user-info-close:hover { color: var(--red, #e53935); }
-.user-info-avatar {
+.uip-close:hover { color: #e53935; }
+
+/* ئەیکۆنی گەورە */
+.uip-avatar {
   font-size: 3rem;
-  width: 64px; height: 64px;
+  width: 72px; height: 72px;
   border-radius: 50%;
-  background: linear-gradient(135deg,#80cbc4,#4db6ac);
+  background: linear-gradient(135deg, #80cbc4, #00a8b5);
   display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 14px;
-  box-shadow: 0 4px 14px rgba(77,182,172,.35);
+  margin: 0 auto 18px;
+  box-shadow: 0 6px 22px rgba(0,168,181,.35);
 }
-.user-info-name {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text, #222);
-  margin-bottom: 10px;
+
+/* ناو */
+.uip-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1a2332;
+  margin-bottom: 16px;
+  line-height: 1.3;
 }
-.user-info-phone {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--bg, #f4f4f4);
-  border-radius: 30px;
-  padding: 6px 18px;
-  font-size: 1rem;
-  color: var(--teal, #00a8b5);
+
+/* لەیبڵی ژمارە */
+.uip-phone-label {
+  font-size: .78rem;
+  color: #90a4ae;
   font-weight: 600;
+  margin-bottom: 6px;
   letter-spacing: .03em;
-  direction: ltr;
 }
-.user-info-phone::before { content: '📱'; font-size: .95rem; }
-.user-avatar { cursor: pointer; transition: transform .15s; }
-.user-avatar:hover { transform: scale(1.12); }
+
+/* ژمارەی موبایل */
+.uip-phone {
+  display: inline-block;
+  background: #e0f7fa;
+  color: #007a85;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 9px 24px;
+  border-radius: 50px;
+  direction: ltr;
+  letter-spacing: .04em;
+}

@@ -182,18 +182,6 @@ window.toggleUserMenu = function(){
   var m = document.getElementById('user-menu');
   if (m) m.style.display = m.style.display==='none' ? 'block' : 'none';
 };
-
-// ── USER INFO POPUP ──
-window.showUserInfoPopup = function(id) {
-  var a = (_accounts || []).find(function(x){ return x.id === id; });
-  if (!a) return;
-  var nameEl  = document.getElementById('uip-name');
-  var phoneEl = document.getElementById('uip-phone');
-  if (nameEl)  nameEl.textContent  = a.name  || '—';
-  if (phoneEl) phoneEl.textContent = a.phone && a.phone.trim() ? a.phone : 'ژمارە نییە';
-  var modal = document.getElementById('modal-user-info');
-  if (modal) modal.classList.add('show');
-};
 document.addEventListener('click', function(e){
   var m  = document.getElementById('user-menu');
   var ub = document.getElementById('topbar-user-btn');
@@ -494,7 +482,7 @@ function buildCard(a, q){
     +'<div class="user-info"><div>'
     +'<div class="user-name">'+highlightName(a.name,q)+'</div>'
     +'<span class="user-type-tag">'+typeLabel(a.type)+'</span>'
-    +'</div><div class="user-avatar" title="زانیاری بینین" onclick="event.stopPropagation();showUserInfoPopup(\'' +a.id+ '\')" >👤</div></div></div>'
+    +'</div><div class="user-avatar" onclick="event.stopPropagation();showUserInfo(\''+a.id+'\')">👤</div></div></div>'
     +(Object.keys(bals).length?'<div class="user-balance-row">'+chips+'</div>':'')
     +'<div class="trans-panel" id="panel-'+a.id+'">'
     +'<div class="add-form">'
@@ -605,6 +593,18 @@ window.showDetail = function(aid){
   document.getElementById('summary-title').textContent = '📋 '+a.name;
   document.getElementById('summary-tbody').innerHTML   = rows || '<tr><td colspan="4" style="text-align:center;color:#999;padding:14px">هیچ مامەڵەیەک نییە</td></tr>';
   document.getElementById('modal-summary').classList.add('show');
+};
+
+
+// ══════════════════════════════════════════
+//  USER INFO POPUP
+// ══════════════════════════════════════════
+window.showUserInfo = function(id) {
+  var a = (_accounts || []).find(function(x){ return x.id === id; });
+  if (!a) return;
+  document.getElementById('uip-name').textContent  = a.name  || '—';
+  document.getElementById('uip-phone').textContent = (a.phone && a.phone.trim()) ? a.phone : 'ژمارە تۆمارنەکراوە';
+  document.getElementById('modal-user-info').classList.add('show');
 };
 
 // ══════════════════════════════════════════

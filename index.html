@@ -248,13 +248,14 @@ if ('serviceWorker' in navigator) {
   </div>
 </div>
 
-<!-- USER INFO POPUP -->
+<!-- ══ USER INFO MODAL ══ -->
 <div class="modal-bg" id="modal-user-info" onclick="closeModal('modal-user-info')">
-  <div class="user-info-card" onclick="event.stopPropagation()">
-    <button class="user-info-close" onclick="closeModal('modal-user-info')">×</button>
-    <div class="user-info-avatar">👤</div>
-    <div class="user-info-name" id="uip-name"></div>
-    <div class="user-info-phone" id="uip-phone"></div>
+  <div class="uip-card" onclick="event.stopPropagation()">
+    <button class="uip-close" onclick="closeModal('modal-user-info')">×</button>
+    <div class="uip-avatar">👤</div>
+    <div class="uip-name" id="uip-name"></div>
+    <div class="uip-phone-label">📱 ژمارەی موبایل</div>
+    <div class="uip-phone" id="uip-phone"></div>
   </div>
 </div>
 
