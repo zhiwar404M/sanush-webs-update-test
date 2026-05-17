@@ -37,10 +37,11 @@ if ('serviceWorker' in navigator) {
 <div id="loader" class="loader">
   <div class="ldr-particles" id="ldr-particles"></div>
   <div class="ldr-content">
-    <div class="ldr-logo">
+    <!-- Feature 2: Scaled-up, high-class logo -->
+    <div class="ldr-logo ldr-logo-xl">
       <div class="ldr-ring"></div>
       <div class="ldr-ring"></div>
-      <svg viewBox="0 0 62 62" fill="none" width="54" height="54">
+      <svg viewBox="0 0 62 62" fill="none" width="72" height="72">
         <rect x="8" y="6" width="46" height="50" rx="8" fill="white" fill-opacity=".15" stroke="white" stroke-width="2"/>
         <rect x="15" y="16" width="32" height="12" rx="4" fill="white" fill-opacity=".25"/>
         <text x="17" y="26" fill="white" font-size="8" font-weight="bold" font-family="Arial">١٢٣</text>
@@ -112,6 +113,16 @@ if ('serviceWorker' in navigator) {
       <button class="tab-btn" onclick="filterTab('supplier',this)">دابینکەرەکان</button>
       <button class="tab-btn" onclick="filterTab('customer',this)">کڕیارەکان</button>
       <button class="tab-btn active" onclick="filterTab('all',this)">گشتی</button>
+    </div>
+
+    <!-- Feature 4: Dynamic balance banner — updates on tab switch -->
+    <div id="balance-banner" class="balance-banner">
+      <div class="bb-header">
+        <span id="balance-banner-title">⚖ کۆی گشتی</span>
+      </div>
+      <div class="bb-body" id="balance-banner-body">
+        <span class="bb-empty">داتا نییە</span>
+      </div>
     </div>
 
     <div class="scroll-area">
@@ -248,14 +259,30 @@ if ('serviceWorker' in navigator) {
   </div>
 </div>
 
-<!-- ══ USER INFO MODAL ══ -->
+<!-- ══ USER INFO MODAL — Feature 1 ══ -->
 <div class="modal-bg" id="modal-user-info" onclick="closeModal('modal-user-info')">
   <div class="uip-card" onclick="event.stopPropagation()">
     <button class="uip-close" onclick="closeModal('modal-user-info')">×</button>
+    <!-- Avatar icon -->
     <div class="uip-avatar">👤</div>
+    <!-- Full name -->
     <div class="uip-name" id="uip-name"></div>
-    <div class="uip-phone-label">📱 ژمارەی موبایل</div>
-    <div class="uip-phone" id="uip-phone"></div>
+    <!-- Phone row — hidden if empty by JS -->
+    <div class="uip-info-row" id="uip-phone-row">
+      <span class="uip-row-icon">📱</span>
+      <div>
+        <div class="uip-row-label">ژمارەی موبایل</div>
+        <div class="uip-row-value" id="uip-phone"></div>
+      </div>
+    </div>
+    <!-- Email row — hidden if empty by JS -->
+    <div class="uip-info-row" id="uip-email-row">
+      <span class="uip-row-icon">✉️</span>
+      <div>
+        <div class="uip-row-label">ئیمەیڵ</div>
+        <div class="uip-row-value uip-email-val" id="uip-email"></div>
+      </div>
+    </div>
   </div>
 </div>
 
