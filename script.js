@@ -30,6 +30,75 @@ function today(){ return new Date().toISOString().split('T')[0]; }
 var AR = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
 function toAr(n){ return String(n).split('').map(function(d){return AR[+d]||d;}).join(''); }
 
+
+// ══════════════════════════════════════════
+//  FEATURE 3 — ACCESS CODE / LICENSE GATE
+//  Shows a lock screen before the main app.
+//  Valid codes are checked client-side.
+//  Once verified, stored in localStorage so
+//  the user isn't prompted again.
+// ══════════════════════════════════════════
+(function initAccessGate(){
+  // ── Define valid access codes here ──
+  var VALID_CODES = ['SANARIA2025', 'PRO-ABCD1', 'KEY-XZ99M'];
+  var STORAGE_KEY = 'sanaria_access_granted';
+
+  // Already granted? Skip gate
+  if (localStorage.getItem(STORAGE_KEY) === '1') return;
+
+  // Build and inject the gate overlay
+  var gate = document.createElement('div');
+  gate.id  = 'access-gate';
+  gate.innerHTML = [
+    '<div class="ag-card">',
+    '  <div class="ag-logo">💰</div>',
+    '  <h2 class="ag-title">سەناریا</h2>',
+    '  <p class="ag-sub">بۆ چوونەژوورەوە کۆدی دەستڕاگەیشتنت پێویستە</p>',
+    '  <div class="ag-field-wrap">',
+    '    <span class="ag-icon">🔑</span>',
+    '    <input id="ag-input" class="ag-input" type="text"',
+    '      placeholder="کۆدی دەستڕاگەیشتن" autocomplete="off"',
+    '      maxlength="20" spellcheck="false">',
+    '  </div>',
+    '  <button class="ag-btn" onclick="checkAccessCode()">تأیید بکە ✓</button>',
+    '  <div id="ag-error" class="ag-error" style="display:none">❌ کۆدەکە هەڵەیە، دووبارە هەوڵبدەرەوە</div>',
+    '</div>',
+  ].join('');
+  document.body.appendChild(gate);
+
+  // Allow Enter key to submit
+  document.getElementById('ag-input').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') window.checkAccessCode();
+  });
+
+  // ── Expose verify function globally ──
+  window.checkAccessCode = function(){
+    var val = (document.getElementById('ag-input').value || '').trim().toUpperCase();
+    var validUpper = VALID_CODES.map(function(c){ return c.toUpperCase(); });
+    if (validUpper.indexOf(val) > -1) {
+      localStorage.setItem(STORAGE_KEY, '1');
+      var g = document.getElementById('access-gate');
+      if (g) {
+        g.style.transition = 'opacity .4s, transform .4s';
+        g.style.opacity    = '0';
+        g.style.transform  = 'scale(1.04)';
+        setTimeout(function(){ g.remove(); }, 420);
+      }
+    } else {
+      var errEl = document.getElementById('ag-error');
+      if (errEl) {
+        errEl.style.display = 'block';
+        var inp = document.getElementById('ag-input');
+        if (inp) { inp.value = ''; inp.focus(); inp.style.borderColor = '#ef4444'; }
+        setTimeout(function(){
+          errEl.style.display = 'none';
+          if (inp) inp.style.borderColor = '';
+        }, 2800);
+      }
+    }
+  };
+})();
+
 // ══════════════════════════════════════════
 //  LOADING SCREEN
 // ══════════════════════════════════════════
@@ -360,7 +429,60 @@ window.filterTab = function(type, el){
   document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
   el.classList.add('active');
   renderList();
+  // ── Feature 4: update balance banner on tab switch ──
+  renderBalanceBanner();
 };
+
+
+// ══════════════════════════════════════════
+//  FEATURE 4 — DYNAMIC BALANCE BANNER
+//  Calculates net balance per active tab and
+//  updates the banner card without page reload
+// ══════════════════════════════════════════
+function renderBalanceBanner() {
+  var banner = document.getElementById('balance-banner');
+  if (!banner) return;
+
+  // Filter accounts by active tab
+  var list = _activeTab === 'all'
+    ? _accounts
+    : _accounts.filter(function(a){ return a.type === _activeTab; });
+
+  // Aggregate totals per currency across filtered accounts
+  var totals = {};
+  list.forEach(function(a){
+    (a.transactions || []).forEach(function(t){
+      if (!totals[t.currency]) totals[t.currency] = { debit: 0, credit: 0 };
+      if (t.type === 'debit') totals[t.currency].debit  += Number(t.amount);
+      else                    totals[t.currency].credit += Number(t.amount);
+    });
+  });
+
+  // Tab label map
+  var tabLabels = { all: 'گشتی', customer: 'کڕیارەکان', supplier: 'دابینکەرەکان' };
+  var titleEl = document.getElementById('balance-banner-title');
+  if (titleEl) titleEl.textContent = '⚖ کۆی ' + (tabLabels[_activeTab] || '');
+
+  var bodyEl = document.getElementById('balance-banner-body');
+  if (!bodyEl) return;
+
+  var entries = Object.entries(totals);
+  if (!entries.length) {
+    bodyEl.innerHTML = '<span class="bb-empty">هیچ مامەڵەیەک نییە</span>';
+    return;
+  }
+
+  bodyEl.innerHTML = entries.map(function(e){
+    var cur = e[0], b = e[1], rem = b.debit - b.credit;
+    var cls = rem > 0 ? 'bb-neg' : rem < 0 ? 'bb-pos' : 'bb-zero';
+    var label = rem > 0 ? 'دانەوە' : rem < 0 ? 'قەرز' : 'سفر';
+    return '<div class="bb-chip ' + cls + '">'
+      + '<span class="bb-cur">' + curLabel(cur) + '</span>'
+      + '<span class="bb-amt">' + Math.abs(rem).toLocaleString() + '</span>'
+      + '<span class="bb-lbl">' + label + '</span>'
+      + '</div>';
+  }).join('');
+}
 
 // ══════════════════════════════════════════
 //  RENDER LIST
@@ -427,6 +549,9 @@ function renderList(){
   }
 
   el.innerHTML = list.map(function(a){ return buildCard(a, q); }).join('');
+
+  // ── Feature 4: refresh balance banner whenever list re-renders ──
+  renderBalanceBanner();
 }
 
 function highlightName(name, q){
@@ -602,8 +727,30 @@ window.showDetail = function(aid){
 window.showUserInfo = function(id) {
   var a = (_accounts || []).find(function(x){ return x.id === id; });
   if (!a) return;
-  document.getElementById('uip-name').textContent  = a.name  || '—';
-  document.getElementById('uip-phone').textContent = (a.phone && a.phone.trim()) ? a.phone : 'ژمارە تۆمارنەکراوە';
+
+  // ── Name ──
+  document.getElementById('uip-name').textContent = a.name || '—';
+
+  // ── Phone: show row only if data exists ──
+  var phoneRow = document.getElementById('uip-phone-row');
+  var phoneEl  = document.getElementById('uip-phone');
+  if (a.phone && a.phone.trim()) {
+    phoneEl.textContent = a.phone.trim();
+    if (phoneRow) phoneRow.style.display = 'flex';
+  } else {
+    if (phoneRow) phoneRow.style.display = 'none';
+  }
+
+  // ── Email: show row only if data exists ──
+  var emailRow = document.getElementById('uip-email-row');
+  var emailEl  = document.getElementById('uip-email');
+  if (a.email && a.email.trim()) {
+    emailEl.textContent = a.email.trim();
+    if (emailRow) emailRow.style.display = 'flex';
+  } else {
+    if (emailRow) emailRow.style.display = 'none';
+  }
+
   document.getElementById('modal-user-info').classList.add('show');
 };
 
