@@ -384,8 +384,11 @@ td.bl.neg { color:var(--red);   font-weight:700; }
   transition: transform .3s ease;
 }
 
+
 /* ══════════════════════════════════════════
-   USER INFO POPUP  (👤 کلیک)
+   FEATURE 1 — USER INFO POPUP (enriched)
+   Shows name, phone, email with clean rows.
+   Rows are hidden/shown by JS.
 ══════════════════════════════════════════ */
 .user-avatar {
   cursor: pointer;
@@ -395,72 +398,173 @@ td.bl.neg { color:var(--red);   font-weight:700; }
   transform: scale(1.15);
   box-shadow: 0 4px 18px rgba(0,168,181,.4);
 }
-
-/* کارتی popup */
 .uip-card {
   background: #fff;
-  border-radius: 22px;
-  padding: 36px 24px 28px;
-  width: min(88vw, 300px);
+  border-radius: 24px;
+  padding: 36px 22px 28px;
+  width: min(90vw, 320px);
   text-align: center;
   position: relative;
   box-shadow: 0 20px 60px rgba(0,0,0,.22);
   animation: uipIn .22s cubic-bezier(.34,1.56,.64,1);
 }
 @keyframes uipIn {
-  from { transform: scale(.8) translateY(-12px); opacity: 0; }
-  to   { transform: scale(1)  translateY(0);     opacity: 1; }
+  from { transform: scale(.82) translateY(-14px); opacity: 0; }
+  to   { transform: scale(1)   translateY(0);     opacity: 1; }
 }
-
-/* دووگمەی داخستن */
 .uip-close {
-  position: absolute;
-  top: 12px; left: 14px;
-  background: none; border: none;
-  font-size: 1.5rem; color: #bbb;
-  cursor: pointer; line-height: 1;
-  transition: color .15s;
+  position: absolute; top: 13px; left: 14px;
+  background: none; border: none; font-size: 1.5rem;
+  color: #bbb; cursor: pointer; transition: color .15s;
 }
-.uip-close:hover { color: #e53935; }
-
-/* ئەیکۆنی گەورە */
+.uip-close:hover { color: var(--red); }
 .uip-avatar {
   font-size: 3rem;
-  width: 72px; height: 72px;
-  border-radius: 50%;
+  width: 76px; height: 76px; border-radius: 50%;
   background: linear-gradient(135deg, #80cbc4, #00a8b5);
   display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 18px;
+  margin: 0 auto 16px;
   box-shadow: 0 6px 22px rgba(0,168,181,.35);
 }
-
-/* ناو */
 .uip-name {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: #1a2332;
-  margin-bottom: 16px;
-  line-height: 1.3;
+  font-size: 1.22rem; font-weight: 800;
+  color: var(--text); margin-bottom: 20px; line-height: 1.3;
+}
+/* Info rows — phone & email share this style */
+.uip-info-row {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg); border: 1.5px solid var(--border);
+  border-radius: 14px; padding: 11px 14px;
+  margin-bottom: 10px; text-align: right;
+  transition: border-color .2s;
+}
+.uip-info-row:hover { border-color: var(--teal); }
+.uip-row-icon { font-size: 1.2rem; flex-shrink: 0; }
+.uip-row-label {
+  font-size: .7rem; font-weight: 600;
+  color: var(--text-light); margin-bottom: 2px;
+}
+.uip-row-value {
+  font-size: .97rem; font-weight: 700;
+  color: var(--text); direction: ltr; text-align: left;
+}
+.uip-email-val {
+  font-size: .85rem; color: var(--teal-dark);
+  word-break: break-all;
 }
 
-/* لەیبڵی ژمارە */
-.uip-phone-label {
-  font-size: .78rem;
-  color: #90a4ae;
+/* ══════════════════════════════════════════
+   FEATURE 2 — LOGO SCALING
+   Larger, more proportional loader logo
+   matching modern app aesthetics.
+══════════════════════════════════════════ */
+.ldr-logo-xl {
+  width: 130px !important;
+  height: 130px !important;
+  box-shadow: 0 0 70px rgba(0,229,255,.6) !important;
+}
+.ldr-logo-xl .ldr-ring:nth-child(1) { width: 140%; height: 140%; }
+.ldr-logo-xl .ldr-ring:nth-child(2) { width: 185%; height: 185%; }
+.ldr-title {
+  font-size: 2.1rem !important;
+  letter-spacing: 3px;
+  margin-top: 8px;
+}
+
+/* ══════════════════════════════════════════
+   FEATURE 3 — ACCESS GATE / LICENSE LOCK
+   Full-screen overlay shown before app loads.
+   Removed once valid code is entered.
+══════════════════════════════════════════ */
+#access-gate {
+  position: fixed; inset: 0; z-index: 10000;
+  background: linear-gradient(135deg, #0d2137 0%, #005f6b 55%, #00a8b5 100%);
+  display: flex; align-items: center; justify-content: center;
+}
+.ag-card {
+  background: #fff; border-radius: 26px;
+  padding: 36px 26px 30px;
+  width: min(90vw, 340px);
+  text-align: center;
+  box-shadow: 0 24px 70px rgba(0,0,0,.3);
+  animation: uipIn .3s cubic-bezier(.34,1.56,.64,1);
+}
+.ag-logo {
+  font-size: 3.2rem;
+  width: 80px; height: 80px; border-radius: 50%;
+  background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+  box-shadow: 0 6px 24px rgba(0,168,181,.25);
+}
+.ag-title {
+  font-size: 1.5rem; font-weight: 800;
+  color: var(--teal-dark); margin-bottom: 6px;
+}
+.ag-sub {
+  font-size: .85rem; color: var(--text-light);
+  line-height: 1.7; margin-bottom: 22px;
+}
+.ag-field-wrap {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg); border: 2px solid var(--border);
+  border-radius: 14px; padding: 11px 16px;
+  margin-bottom: 14px; transition: border-color .2s;
+}
+.ag-field-wrap:focus-within { border-color: var(--teal); background: #fff; }
+.ag-icon { font-size: 1.1rem; flex-shrink: 0; }
+.ag-input {
+  flex: 1; background: none; border: none; outline: none;
+  font-family: 'Noto Sans Arabic', sans-serif;
+  font-size: 1rem; color: var(--text);
+  letter-spacing: .1em; text-align: center;
   font-weight: 600;
-  margin-bottom: 6px;
-  letter-spacing: .03em;
+}
+.ag-input::placeholder { color: #b0bec5; letter-spacing: 0; font-weight: 400; }
+.ag-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+  color: #fff; border: none; border-radius: 14px;
+  padding: 14px; font-family: 'Noto Sans Arabic', sans-serif;
+  font-size: 1rem; font-weight: 700; cursor: pointer;
+  box-shadow: 0 4px 18px rgba(0,168,181,.35);
+  transition: transform .15s;
+}
+.ag-btn:hover { transform: translateY(-2px); }
+.ag-error {
+  background: #fef2f2; border: 1px solid #fecaca;
+  color: var(--red); font-size: .85rem; font-weight: 600;
+  padding: 10px 14px; border-radius: 12px; margin-top: 12px;
 }
 
-/* ژمارەی موبایل */
-.uip-phone {
-  display: inline-block;
-  background: #e0f7fa;
-  color: #007a85;
-  font-size: 1.1rem;
-  font-weight: 700;
-  padding: 9px 24px;
-  border-radius: 50px;
-  direction: ltr;
+/* ══════════════════════════════════════════
+   FEATURE 4 — BALANCE BANNER
+   Sticky banner below tabs showing net totals
+   for the currently active tab. Updates
+   instantly on tab switch via JS.
+══════════════════════════════════════════ */
+.balance-banner {
+  background: linear-gradient(135deg, var(--teal-dark), #005f6b);
+  padding: 10px 14px 12px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+.bb-header {
+  color: rgba(255,255,255,.75); font-size: .75rem;
+  font-weight: 700; margin-bottom: 8px;
   letter-spacing: .04em;
 }
+.bb-body {
+  display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+}
+.bb-chip {
+  display: flex; flex-direction: column; align-items: center;
+  border-radius: 12px; padding: 7px 14px; min-width: 80px;
+  gap: 2px; flex: 1;
+}
+.bb-chip.bb-neg  { background: rgba(239,68,68,.18);  border: 1px solid rgba(239,68,68,.3); }
+.bb-chip.bb-pos  { background: rgba(34,197,94,.18);  border: 1px solid rgba(34,197,94,.3); }
+.bb-chip.bb-zero { background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); }
+.bb-cur  { font-size: .65rem; color: rgba(255,255,255,.65); font-weight: 600; }
+.bb-amt  { font-size: 1rem; font-weight: 800; color: #fff; line-height: 1.1; }
+.bb-lbl  { font-size: .62rem; font-weight: 600; color: rgba(255,255,255,.55); }
+.bb-empty { color: rgba(255,255,255,.5); font-size: .8rem; padding: 4px 0; }
