@@ -439,6 +439,32 @@ window.filterTab = function(type, el){
 //  Calculates net balance per active tab and
 //  updates the banner card without page reload
 // ══════════════════════════════════════════
+// باڵانس بانەر بۆ ئەکاونتێکی تایبەت (کاتی وردەکاری)
+function renderBalanceBannerForAccount(account) {
+  var titleEl = document.getElementById('balance-banner-title');
+  var bodyEl  = document.getElementById('balance-banner-body');
+  if (!titleEl || !bodyEl) return;
+
+  titleEl.textContent = '📋 ' + (account.name || '');
+
+  var bals = getBals(account);
+  var entries = Object.entries(bals);
+  if (!entries.length) {
+    bodyEl.innerHTML = '<span class="bb-empty">هیچ مامەڵەیەک نییە</span>';
+    return;
+  }
+  bodyEl.innerHTML = entries.map(function(e){
+    var cur = e[0], b = e[1], rem = b.debit - b.credit;
+    var cls   = rem > 0 ? 'bb-neg' : rem < 0 ? 'bb-pos' : 'bb-zero';
+    var label = rem > 0 ? 'دانەوە' : rem < 0 ? 'قەرز' : 'سفر';
+    return '<div class="bb-chip ' + cls + '">'
+      + '<span class="bb-cur">' + curLabel(cur) + '</span>'
+      + '<span class="bb-amt">' + Math.abs(rem).toLocaleString() + '</span>'
+      + '<span class="bb-lbl">' + label + '</span>'
+      + '</div>';
+  }).join('');
+}
+
 function renderBalanceBanner() {
   var banner = document.getElementById('balance-banner');
   if (!banner) return;
@@ -754,10 +780,17 @@ window.saveAccount = function(){
 //  SUMMARY / DETAIL
 // ══════════════════════════════════════════
 window.showSummaryModal = function(){
-  // نوێکردنەوەی balance banner بۆ تابی ئێستا
+  // ── باڵانس بانەر بۆ تابی ئێستا (گشتی/کڕیار/دابینکەر) ──
   renderBalanceBanner();
+
+  // ── خشتەکەش هەمان فلتەری تابی ئێستا بکات ──
+  var tabLabels = { all: 'گشتی', customer: 'کڕیارەکان', supplier: 'دابینکەرەکان' };
+  var filteredList = _activeTab === 'all'
+    ? _accounts
+    : _accounts.filter(function(a){ return a.type === _activeTab; });
+
   var totals = {};
-  _accounts.forEach(function(a){
+  filteredList.forEach(function(a){
     (a.transactions||[]).forEach(function(t){
       if (!totals[t.currency]) totals[t.currency]={debit:0,credit:0};
       if (t.type==='debit') totals[t.currency].debit  += Number(t.amount);
@@ -768,7 +801,9 @@ window.showSummaryModal = function(){
     var cur=e[0], b=e[1], rem=b.debit-b.credit;
     return '<tr><td>'+curLabel(cur)+'</td><td class="cr">'+b.credit+'</td><td class="dr">'+b.debit+'</td><td class="bl '+(rem>=0?'neg':'pos')+'">'+Math.abs(rem)+'</td></tr>';
   }).join('');
-  document.getElementById('summary-title').textContent = '📊 کۆی بڕەکان';
+
+  var tabLabel = tabLabels[_activeTab] || 'گشتی';
+  document.getElementById('summary-title').textContent = '📊 کۆی ' + tabLabel;
   document.getElementById('summary-tbody').innerHTML   = rows || '<tr><td colspan="4" style="text-align:center;color:#999;padding:14px">هیچ داتایەک نییە</td></tr>';
   document.getElementById('modal-summary').classList.add('show');
 };
@@ -780,6 +815,8 @@ window.showDetail = function(aid){
     var cur=e[0], b=e[1], rem=b.debit-b.credit;
     return '<tr><td>'+curLabel(cur)+'</td><td class="cr">'+b.credit+'</td><td class="dr">'+b.debit+'</td><td class="bl '+(rem>=0?'neg':'pos')+'">'+Math.abs(rem)+'</td></tr>';
   }).join('');
+  // باڵانس بانەر بگۆڕە بۆ ئەو کەسەی تایبەتی
+  renderBalanceBannerForAccount(a);
   document.getElementById('summary-title').textContent = '📋 '+a.name;
   document.getElementById('summary-tbody').innerHTML   = rows || '<tr><td colspan="4" style="text-align:center;color:#999;padding:14px">هیچ مامەڵەیەک نییە</td></tr>';
   document.getElementById('modal-summary').classList.add('show');
