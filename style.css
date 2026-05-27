@@ -568,3 +568,112 @@ td.bl.neg { color:var(--red);   font-weight:700; }
 .bb-amt  { font-size: 1rem; font-weight: 800; color: #fff; line-height: 1.1; }
 .bb-lbl  { font-size: .62rem; font-weight: 600; color: rgba(255,255,255,.55); }
 .bb-empty { color: rgba(255,255,255,.5); font-size: .8rem; padding: 4px 0; }
+
+/* ══════════════════════════════════════════
+   BALANCE BANNER — ناو مۆداڵ (گۆڕانکاری ١)
+   ئەوەی لە مۆداڵی summary دەردەکەوێت
+══════════════════════════════════════════ */
+.balance-banner-modal {
+  border-radius: 12px;
+  margin-bottom: 14px;
+  border-bottom: none;
+  overflow: hidden;
+}
+
+/* ══════════════════════════════════════════
+   PRO LIMIT MODAL — گۆڕانکاری ٢
+   مۆداڵی ئاگادارکردنەوەی سنووری ئەکاونت
+══════════════════════════════════════════ */
+.pro-limit-box {
+  text-align: center;
+  padding: 28px 22px;
+  max-width: 310px;
+}
+.pro-limit-icon {
+  font-size: 2.6rem;
+  margin-bottom: 10px;
+}
+.pro-limit-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 10px;
+}
+.pro-limit-sub {
+  font-size: .85rem;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.pro-limit-sub strong {
+  color: var(--teal);
+  font-weight: 700;
+}
+.pro-limit-btn {
+  display: block;
+  width: 100%;
+  margin: 14px 0 8px;
+  padding: 12px;
+  background: linear-gradient(135deg, #f59e0b, #f97316);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Noto Sans Arabic', sans-serif;
+  font-size: .97rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(249,115,22,.3);
+  transition: transform .15s, box-shadow .15s;
+}
+.pro-limit-btn:active {
+  transform: scale(.97);
+  box-shadow: 0 2px 8px rgba(249,115,22,.2);
+}
+.pro-limit-cancel {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  font-family: 'Noto Sans Arabic', sans-serif;
+  font-size: .88rem;
+  cursor: pointer;
+  padding: 6px 16px;
+}
+
+/* ══════════════════════════════════════════
+   PWA LOADER LOGO — گۆڕانکاری ٣
+   گەورەکردنی لۆگۆ لە کاتی باربوون بۆ PWA
+══════════════════════════════════════════ */
+.ldr-logo-xl {
+  width: 108px !important;
+  height: 108px !important;
+  margin-bottom: 18px;
+}
+.ldr-logo-xl svg {
+  width: 80px !important;
+  height: 80px !important;
+  filter: drop-shadow(0 4px 24px rgba(0,232,210,.45));
+}
+.ldr-logo-xl .ldr-ring {
+  width: 108px !important;
+  height: 108px !important;
+}
+.ldr-logo-xl .ldr-ring:nth-child(2) {
+  width: 86px !important;
+  height: 86px !important;
+}
+
+/* apple-touch-icon / home-screen splash logo */
+@media (display-mode: standalone) {
+  .ldr-logo {
+    width: 120px;
+    height: 120px;
+  }
+  .ldr-logo svg {
+    width: 88px;
+    height: 88px;
+  }
+  .ldr-title {
+    font-size: 1.35rem;
+    letter-spacing: .04em;
+  }
+}

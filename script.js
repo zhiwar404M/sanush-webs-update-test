@@ -670,27 +670,92 @@ window.askDeleteUser = function(id, name){
   document.getElementById('modal-confirm').classList.add('show');
 };
 
+// ══════════════════════════════════════════
+//  ACCOUNT LIMIT MODAL — Pro Gate
+// ══════════════════════════════════════════
+function showProLimitModal(current, limit) {
+  var existing = document.getElementById('modal-pro-limit');
+  if (existing) { existing.classList.add('show'); return; }
+
+  var modal = document.createElement('div');
+  modal.id = 'modal-pro-limit';
+  modal.className = 'modal-bg';
+  modal.innerHTML = [
+    '<div class="modal-box pro-limit-box" onclick="event.stopPropagation()">',
+    '  <div class="pro-limit-icon">🔒</div>',
+    '  <div class="pro-limit-title">گەیشتیتە سنووری ئەکاونت</div>',
+    '  <div class="pro-limit-sub">',
+    '    ئێستا <strong>' + current + '</strong> ئەکاونتت هەیە.',
+    '    خاڵی ئازادت تەنها <strong>' + limit + '</strong> ئەکاونتە.',
+    '  </div>',
+    '  <div class="pro-limit-sub">بۆ زیادکردنی ئەکاونتی نامحدود، گۆڕە بۆ نسخەی Pro.</div>',
+    '  <button class="pro-limit-btn" onclick="location.href=\'pro.html\'">⭐ Pro بکە — زیاتر زیاد بکە</button>',
+    '  <button class="pro-limit-cancel" onclick="document.getElementById(\'modal-pro-limit\').classList.remove(\'show\')">دواتر</button>',
+    '</div>',
+  ].join('');
+  modal.addEventListener('click', function(e){
+    if (e.target === modal) modal.classList.remove('show');
+  });
+  document.body.appendChild(modal);
+  modal.classList.add('show');
+}
+
 window.saveAccount = function(){
   if (!_user){ showLoginModal('login'); return; }
   var name = (document.getElementById('nf-name').value||'').trim();
   if (!name){ toast('تکایە ناوەکەت بنووسە'); return; }
-  _accounts.push({
-    id:uid(), name:name,
-    phone:(document.getElementById('nf-phone').value||'').trim(),
-    email:(document.getElementById('nf-email').value||'').trim(),
-    type: document.getElementById('nf-type').value,
-    transactions:[]
+
+  // ── Account Limit Gate ──
+  // پشکنین لەسەر isPro یان accountLimit لە Firestore
+  window._db.collection('users').doc(_user.uid).get().then(function(snap){
+    var data = snap.exists ? snap.data() : {};
+    var isPro = data.isPro === true;
+    var accountLimit = data.accountLimit || 10; // بە پێشکەوتوو ١٠
+
+    if (!isPro && _accounts.length >= accountLimit) {
+      // نیشاندانی مۆداڵی Pro بەکەویتن
+      showProLimitModal(_accounts.length, accountLimit);
+      return;
+    }
+
+    // زیادکردنی ئەکاونت ئەگەر لیمیت نەگاتبێت
+    _accounts.push({
+      id:uid(), name:name,
+      phone:(document.getElementById('nf-phone').value||'').trim(),
+      email:(document.getElementById('nf-email').value||'').trim(),
+      type: document.getElementById('nf-type').value,
+      transactions:[]
+    });
+    saveToCloud();
+    ['nf-name','nf-phone','nf-email'].forEach(function(i){document.getElementById(i).value='';});
+    toast('✅ ئەکاونت پاشەکەوت کرا');
+    window.gotoPage('page-main');
+  }).catch(function(){
+    // ئەگەر هەڵە رووی دا، بە شێوەی ئاسایی بڕۆ پێش
+    if (_accounts.length >= 10) {
+      showProLimitModal(_accounts.length, 10);
+      return;
+    }
+    _accounts.push({
+      id:uid(), name:name,
+      phone:(document.getElementById('nf-phone').value||'').trim(),
+      email:(document.getElementById('nf-email').value||'').trim(),
+      type: document.getElementById('nf-type').value,
+      transactions:[]
+    });
+    saveToCloud();
+    ['nf-name','nf-phone','nf-email'].forEach(function(i){document.getElementById(i).value='';});
+    toast('✅ ئەکاونت پاشەکەوت کرا');
+    window.gotoPage('page-main');
   });
-  saveToCloud();
-  ['nf-name','nf-phone','nf-email'].forEach(function(i){document.getElementById(i).value='';});
-  toast('✅ ئەکاونت پاشەکەوت کرا');
-  window.gotoPage('page-main');
 };
 
 // ══════════════════════════════════════════
 //  SUMMARY / DETAIL
 // ══════════════════════════════════════════
 window.showSummaryModal = function(){
+  // نوێکردنەوەی balance banner بۆ تابی ئێستا
+  renderBalanceBanner();
   var totals = {};
   _accounts.forEach(function(a){
     (a.transactions||[]).forEach(function(t){

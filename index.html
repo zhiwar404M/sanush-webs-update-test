@@ -115,16 +115,6 @@ if ('serviceWorker' in navigator) {
       <button class="tab-btn active" onclick="filterTab('all',this)">گشتی</button>
     </div>
 
-    <!-- Feature 4: Dynamic balance banner — updates on tab switch -->
-    <div id="balance-banner" class="balance-banner">
-      <div class="bb-header">
-        <span id="balance-banner-title">⚖ کۆی گشتی</span>
-      </div>
-      <div class="bb-body" id="balance-banner-body">
-        <span class="bb-empty">داتا نییە</span>
-      </div>
-    </div>
-
     <div class="scroll-area">
       <div class="action-cards">
         <div class="action-card" onclick="requireAuth(function(){gotoPage('page-new')})">
@@ -251,6 +241,15 @@ if ('serviceWorker' in navigator) {
 <div class="modal-bg" id="modal-summary">
   <div class="modal-box">
     <div class="modal-title" id="summary-title">📊 کۆی بڕەکان</div>
+    <!-- Balance Banner — moved inside modal -->
+    <div id="balance-banner" class="balance-banner balance-banner-modal">
+      <div class="bb-header">
+        <span id="balance-banner-title">⚖ کۆی گشتی</span>
+      </div>
+      <div class="bb-body" id="balance-banner-body">
+        <span class="bb-empty">داتا نییە</span>
+      </div>
+    </div>
     <table class="modal-table">
       <thead><tr><th>دەرامەت</th><th>قەرز</th><th>دانەوە</th><th>ماوە</th></tr></thead>
       <tbody id="summary-tbody"></tbody>
