@@ -736,7 +736,7 @@ window.saveAccount = function(){
   window._db.collection('users').doc(_user.uid).get().then(function(snap){
     var data = snap.exists ? snap.data() : {};
     var isPro = data.isPro === true;
-    var accountLimit = data.accountLimit || 10; // بە پێشکەوتوو ١٠
+    var accountLimit = data.accountLimit || 999999; // بە پێشکەوتوو ١٠
 
     if (!isPro && _accounts.length >= accountLimit) {
       // نیشاندانی مۆداڵی Pro بەکەویتن
